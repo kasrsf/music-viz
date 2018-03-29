@@ -1,0 +1,91 @@
+body {
+    font-family: "Roboto Mono", monospace;
+    text-align: center;
+    margin: 0px;
+}
+
+#song {
+    position: absolute;
+    left: 1vw;
+    top: 1vh;
+    font-weight: bold;
+    font-size: 1.5vw;			
+}
+
+#composer {
+    position: absolute;
+    left: 2vw;
+    top: 5.5vh;
+
+    font-size: 1vw;			
+}
+
+#prevbtn {
+    width: auto;
+    height: 4vh;
+    
+    left: 47%;
+    text-align: center;
+    position: absolute;
+    top: 3vh;
+    pointer-events: none;
+    opacity: 0.4;
+    transform: scaleX(-1);
+}
+
+#nextbtn {
+    width: auto;
+    height: 4vh;
+    
+    left: 55%;
+    text-align: center;
+    position: absolute;
+    top: 3vh;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+#playbtn {
+    width: auto;
+    height: 8vh;
+    
+    left: 50%;
+    text-align: center;
+    position: absolute;
+    top: 1vh;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+#playbtn.active {
+    pointer-events: initial;
+    opacity: 1;
+}
+
+#prevbtn.active {
+    pointer-events: initial;
+    opacity: 1;
+}
+
+#nextbtn.active {
+    pointer-events: initial;
+    opacity: 1;
+}
+
+#Description {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    bottom: 0px;
+}
+
+#Roll {
+    position: absolute;
+    margin: auto;
+    top: 10%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+}
