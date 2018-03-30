@@ -1,4 +1,4 @@
-var midiFiles = ["./assets/midi/beet.mid", "./assets/midi/beet.mid"];
+var midiFiles = ["./assets/midi/rondo.mid", "./assets/midi/beet.mid"];
 var songNames = ["Piano Concerto No.5 in Eb, Op.73 \"Emperor\"", "Symphony No. 5"];
 var composers = ["Ludwig van Beethoven", "Ludwig van Beethoven"];
 
@@ -340,117 +340,184 @@ var svg = d3.select("#Roll")
 .style("background-color", '#D3D3D3');
 
 function drawPercussion(time, event, test) {
-    piano.triggerAttackRelease(event.name, event.duration, time, event.velocity);
-    //synth.triggerAttackRelease(event.name, event.duration, time, event.velocity);
-    Tone.Draw.schedule(function() {
-        var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
-        var element = svg.append("g");
-        element.attr("transform","translate("+(-1*elLength)+" 0)");
-        element.append("rect")
-        .attr("width", elLength)
-        .attr("height", 8)
-        .attr("rx", 5)
-        .attr("ry", 5)
-        .attr("x", 0)
-        .attr("y", (event.midi - 35)*10)
-        .attr("fill", "red")
-        .attr("opacity", "0.5");
+    if (percussionState != 2) {
+        piano.triggerAttackRelease(event.name, event.duration, time, event.velocity);
+        
+        if (percussionState == 0) {
+            Tone.Draw.schedule(function() {
+                var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
+                var element = svg.append("g");
+                element.attr("transform","translate("+(-1*elLength)+" 0)");
+                element.append("rect")
+                .attr("width", elLength)
+                .attr("height", 8)
+                .attr("rx", 5)
+                .attr("ry", 5)
+                .attr("x", 0)
+                .attr("y", (event.midi - 35)*10)
+                .attr("fill", "red")
+                .attr("opacity", "0.5");
 
-        var t = d3.transition()
-        .duration(bpm)
-        .ease(d3.easeLinear);
+                var t = d3.transition()
+                .duration(bpm)
+                .ease(d3.easeLinear);
 
-        element.transition(t)
-        .attr("transform","translate("+(width+500-elLength)+" 0)")
-        .remove();
-    }, time);
+                element.transition(t)
+                .attr("transform","translate("+(width+500-elLength)+" 0)")
+                .remove();
+            }, time);
+        }
+    }
 }
 
 function drawString(time, event) {
-    ensemble.triggerAttackRelease(event.name, event.duration, time, event.velocity);
+    if (stringState != 2) {
+        ensemble.triggerAttackRelease(event.name, event.duration, time, event.velocity);
 
-    Tone.Draw.schedule(function() {
-        var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
-        var element = svg.append("g");
-        element.attr("transform","translate("+(-1*elLength)+" 0)");
-        element.append("rect")
-        .attr("width", elLength)
-        .attr("height", 8)
-        .attr("rx", 5)
-        .attr("ry", 5)
-        .attr("x", 0)
-        .attr("y", (event.midi - 35)*10)
-        .attr("fill", "green")
-        .attr("opacity", "0.5");
+        if (stringState == 0) {
+            Tone.Draw.schedule(function() {
+                var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
+                var element = svg.append("g");
+                element.attr("transform","translate("+(-1*elLength)+" 0)");
+                element.append("rect")
+                .attr("width", elLength)
+                .attr("height", 8)
+                .attr("rx", 5)
+                .attr("ry", 5)
+                .attr("x", 0)
+                .attr("y", (event.midi - 35)*10)
+                .attr("fill", "green")
+                .attr("opacity", "0.5");
 
-        var t = d3.transition()
-        .duration(bpm)
-        .ease(d3.easeLinear);
-        element.transition(t)
-        .attr("transform","translate("+(width+500-elLength)+" 0)")
-        .remove()
-    }, time);
+                var t = d3.transition()
+                .duration(bpm)
+                .ease(d3.easeLinear);
+                element.transition(t)
+                .attr("transform","translate("+(width+500-elLength)+" 0)")
+                .remove()
+            }, time);
+        }
+    }
 }
 
 function drawBrass(time, event) {
-    brass.triggerAttackRelease(event.name, event.duration, time, event.velocity);
+    if (brassState != 2) {
+        brass.triggerAttackRelease(event.name, event.duration, time, event.velocity);
 
-    Tone.Draw.schedule(function() {
-        var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
-        var element = svg.append("g");
-        element.attr("transform","translate("+(-1*elLength)+" 0)");
-        element.append("rect")
-        .attr("width", elLength)
-        .attr("height", 8)
-        .attr("rx", 5)
-        .attr("ry", 5)
-        .attr("x", 0)
-        .attr("y", (event.midi - 35)*10)
-        .attr("fill", "orange")
-        .attr("opacity", "0.5");
+        if (brassState == 0) {
+            Tone.Draw.schedule(function() {
+                var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
+                var element = svg.append("g");
+                element.attr("transform","translate("+(-1*elLength)+" 0)");
+                element.append("rect")
+                .attr("width", elLength)
+                .attr("height", 8)
+                .attr("rx", 5)
+                .attr("ry", 5)
+                .attr("x", 0)
+                .attr("y", (event.midi - 35)*10)
+                .attr("fill", "orange")
+                .attr("opacity", "0.5");
 
-        var t = d3.transition()
-        .duration(bpm)
-        .ease(d3.easeLinear);
-        
-        element.transition(t)
-        .attr("transform","translate("+(width+500-elLength)+" 0)")
-        .remove()
-    }, time);
+                var t = d3.transition()
+                .duration(bpm)
+                .ease(d3.easeLinear);
+                
+                element.transition(t)
+                .attr("transform","translate("+(width+500-elLength)+" 0)")
+                .remove()
+            }, time);
+        }
+    }
 }
 
 function drawWoodwind(time, event) {
-    flute.triggerAttackRelease(event.name, event.duration, time, event.velocity);
-    
-    Tone.Draw.schedule(function() {
-        var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
-        var vel = 20 * event.velocity;
-        var element = svg.append("g");
-        element.attr("transform","translate("+(-1*elLength)+" 0)");
-        element.append("rect")
-        .attr("width", elLength)
-        .attr("height", 8)
-        .attr("rx", 5)
-        .attr("ry", 5)
-        .attr("x", 0)
-        .attr("y", (event.midi - 35)*10)
-        .attr("fill", "blue")
-        .attr("opacity", "0.5");
-
-        var t = d3.transition()
-        .duration(bpm)
-        .ease(d3.easeLinear);
+    if (woodwindState != 2) {
+        flute.triggerAttackRelease(event.name, event.duration, time, event.velocity);
         
-        element.transition(t)
-        .attr("transform","translate("+(width+500-elLength)+" 0)")
-        .remove()
-    }, time);
+        if (woodwindState == 0) {
+            Tone.Draw.schedule(function() {
+                var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
+                var vel = 20 * event.velocity;
+                var element = svg.append("g");
+                element.attr("transform","translate("+(-1*elLength)+" 0)");
+                element.append("rect")
+                .attr("width", elLength)
+                .attr("height", 8)
+                .attr("rx", 5)
+                .attr("ry", 5)
+                .attr("x", 0)
+                .attr("y", (event.midi - 35)*10)
+                
+                .attr("fill", "blue")
+                .attr("opacity", "0.5");
+
+                var t = d3.transition()
+                .duration(bpm)
+                .ease(d3.easeLinear);
+                
+                element.transition(t)
+                .attr("transform","translate("+(width+500-elLength)+" 0)")
+                .remove()
+            }, time);
+        }
+    }
 }
-var button = document.querySelector("#playbtn");
+var playbtn = document.querySelector("#playbtn");
 var nextbtn = document.querySelector("#nextbtn");
 var prevbtn = document.querySelector("#prevbtn");
 
-button.addEventListener("click", function(){
+var percussionBtn = document.querySelector("#percussionBtn");
+var percussionState = 0; // 0: sound+graphic 1: sound 2: none
+
+var stringBtn = document.querySelector("#stringBtn");
+var stringState = 0;
+
+var brassBtn = document.querySelector("#brassBtn");
+var brassState = 0;
+
+var woodwindBtn = document.querySelector("#woodwindBtn");
+var woodwindState = 0;
+
+
+function toggleButtonState(state, button) {
+    if (state == 0) {
+        button.classList.remove("activeBtn");
+        button.classList.add("semiactiveBtn");
+    } else if (state == 1) {
+        button.classList.remove("semiactiveBtn");
+        button.classList.add("deactiveBtn");
+    } else if (state == 2) {
+        button.classList.remove("deactiveBtn");
+        button.classList.add("activeBtn");
+    }
+}
+
+percussionBtn.addEventListener("click", function() {
+    toggleButtonState(percussionState, percussionBtn);
+
+    percussionState = (percussionState + 1) % 3;
+});
+
+stringBtn.addEventListener("click", function() {
+    toggleButtonState(stringState, stringBtn);
+
+    stringState = (stringState + 1) % 3;
+});
+
+brassBtn.addEventListener("click", function() {
+    toggleButtonState(brassState, brassBtn);
+
+    brassState = (brassState + 1) % 3;
+});
+
+woodwindBtn.addEventListener("click", function() {
+    toggleButtonState(woodwindState, woodwindBtn);
+
+    woodwindState = (woodwindState + 1) % 3;
+});
+
+playbtn.addEventListener("click", function(){
     if (Tone.Transport.state === "started"){
         Tone.Transport.pause();
     } else {
@@ -462,7 +529,7 @@ nextbtn.addEventListener("click", function() {
     Tone.Transport.stop();
     
     d3.selectAll("svg > *").remove();
-    button.classList.remove("active");
+    playbtn.classList.remove("active");
     nextbtn.classList.remove("active");
     prevbtn.classList.remove("active");
 
@@ -516,7 +583,7 @@ function loadMidi() {
         document.querySelector("#song").innerHTML = songNames[songIndex];
         document.querySelector("#composer").innerHTML = composers[songIndex];
 
-        button.classList.add("active");
+        playbtn.classList.add("active");
         nextbtn.classList.add("active");
         prevbtn.classList.add("active");
         
