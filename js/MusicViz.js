@@ -1,6 +1,6 @@
-var midiFiles = ["./assets/midi/rondo.mid", "./assets/midi/beet.mid"];
-var songNames = ["Piano Concerto No.5 in Eb, Op.73 \"Emperor\"", "Symphony No. 5"];
-var composers = ["Ludwig van Beethoven", "Ludwig van Beethoven"];
+var midiFiles = [ "./assets/midi/sym40-1.mid", "./assets/midi/rondo.mid", "./assets/midi/beet.mid", "./assets/midi/swmain.mid", "./assets/midi/clairdelune.mid"];
+var songNames = ["Symphony No. 40 - First Movement", "Piano Concerto No.5 in Eb, Op.73 - Movement 3", "Symphony No. 5", "Star Wars Main Theme", "Clair De Lune"];
+var composers = ["Wolfgang Amadeus Mozart", "Ludwig van Beethoven", "Ludwig van Beethoven", "John Williams", "Claude Debussy"];
 
 var numOfSongs = midiFiles.length;
 var songIndex = 0;
@@ -331,6 +331,7 @@ var width = screen.width;
 var height = 750;
 
 var bpm = 0;
+var midi_bpm = 0;
 
 var svg = d3.select("#Roll")
 .append("svg")
@@ -345,7 +346,7 @@ function drawPercussion(time, event, test) {
         
         if (percussionState == 0) {
             Tone.Draw.schedule(function() {
-                var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
+                var elLength = event.duration * midi_bpm;//#: 100 * (event.duration);
                 var element = svg.append("g");
                 element.attr("transform","translate("+(-1*elLength)+" 0)");
                 element.append("rect")
@@ -376,7 +377,7 @@ function drawString(time, event) {
 
         if (stringState == 0) {
             Tone.Draw.schedule(function() {
-                var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
+                var elLength = event.duration * midi_bpm;//(bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
                 var element = svg.append("g");
                 element.attr("transform","translate("+(-1*elLength)+" 0)");
                 element.append("rect")
@@ -406,7 +407,7 @@ function drawBrass(time, event) {
 
         if (brassState == 0) {
             Tone.Draw.schedule(function() {
-                var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
+                var elLength = event.duration * midi_bpm;
                 var element = svg.append("g");
                 element.attr("transform","translate("+(-1*elLength)+" 0)");
                 element.append("rect")
@@ -437,7 +438,7 @@ function drawWoodwind(time, event) {
         
         if (woodwindState == 0) {
             Tone.Draw.schedule(function() {
-                var elLength = (bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
+                var elLength = event.duration * midi_bpm;//(bpm < 10000)? 200 * (event.duration): 100 * (event.duration);
                 var vel = 20 * event.velocity;
                 var element = svg.append("g");
                 element.attr("transform","translate("+(-1*elLength)+" 0)");
@@ -560,7 +561,7 @@ nextbtn.addEventListener("click", function() {
 function loadMidi() {
     MidiConvert.load(midiFiles[songIndex]).then(function(midi) {
         bpm = 1500000 / midi.bpm;
-        
+        midi_bpm = midi.bpm;
         Tone.Transport.bpm.value = midi.bpm;
         Tone.Transport.timeSignature = midi.timeSignature;
 
